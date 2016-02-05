@@ -15,6 +15,7 @@ Package.onUse(function(api) {
   api.use('ecmascript');
   api.use('underscore');
   api.addFiles('partial-validated-method.js');
+  api.export('PartialValidatedMethod');
 });
 
 Package.onTest(function(api) {
