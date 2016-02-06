@@ -1,7 +1,6 @@
 PartialValidatedMethod = function PartialValidatedMethod(partialMethodOptions) {
 
   function PartialValidatedMethodMixin(methodOptions) {
-    var self = this;
 
     _.keys(partialMethodOptions).forEach(function (key) {
 
@@ -15,9 +14,9 @@ PartialValidatedMethod = function PartialValidatedMethod(partialMethodOptions) {
           }
           (function (originalFunction) {
             methodOptions[key] = function () {
-              partialMethodOptions[key].apply(self, arguments);
-              return originalFunction.apply(self, arguments);
-            }.bind(self);
+              partialMethodOptions[key].apply(this, arguments);
+              return originalFunction.apply(this, arguments);
+            };
           })(methodOptions[key]);
 
         //array - concat
@@ -25,7 +24,7 @@ PartialValidatedMethod = function PartialValidatedMethod(partialMethodOptions) {
           if (!_.isArray(methodOptions[key])) {
             throw new Error ('PartialValidatedMethod: Types of ' + key + ' don\'t match!');
           }
-          methodOptions[key] = partialMethodOptions[key].concat(methodOptions[key]);
+          methodOptions[key] = methodOptions[key].concat(partialMethodOptions[key]);
 
         //object - extend
         } else if (_.isObject(partialMethodOptions[key])) {
